@@ -1,0 +1,56 @@
+import random
+from collections import defaultdict
+from utils import benchmark
+
+
+@benchmark
+def exact_counter(text):
+    letter_count = defaultdict(int)
+
+    for letter in text:
+        if letter.isalpha():
+            letter_count[letter] += 1
+
+    return letter_count
+
+
+@benchmark
+def fixed_probability_counter(text, probability=1 / 32):
+    letter_count = defaultdict(int)
+
+    for letter in text:
+        if letter.isalpha() and random.random() < probability:
+            letter_count[letter] += 1
+
+    # Scale up the counts to estimate actual frequencies
+    for letter in letter_count:
+        letter_count[letter] *= int(1 / probability)
+
+    return letter_count
+
+
+@benchmark
+def lossy_counting(text, bucket_size=100, epsilon=0.01):
+    current_bucket = 1
+    letter_count = defaultdict(int)
+    frequencies = defaultdict(int)
+
+    for i, letter in enumerate(text):
+        if letter.isalpha():
+            letter_count[letter] += 1
+
+            # Check if the current bucket is full
+            if (i + 1) % bucket_size == 0:
+                # Update frequencies and remove infrequent items
+                for letter, count in list(letter_count.items()):
+                    if count + current_bucket * epsilon < current_bucket:
+                        del letter_count[letter]
+                    else:
+                        frequencies[letter] = count
+                current_bucket += 1
+
+    # Include counts from the last bucket if it's not full
+    for letter, count in letter_count.items():
+        frequencies[letter] = max(frequencies[letter], count)
+
+    return dict(frequencies)
