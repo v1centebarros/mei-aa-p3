@@ -76,9 +76,14 @@ class Stats:
         return sum(
             1 for letter in self.approx_counts if self.approx_counts[letter] > 0 and self.exact_counts[letter] > 0)
 
-    def precision(self):
-        true_positives = self.__true_positives()
+    def precision(self, tolerance=0.1):
+        true_positives = sum(
+            1 for letter in self.approx_counts
+            if abs(self.approx_counts[letter] - self.exact_counts.get(letter, 0)) <= tolerance * self.exact_counts.get(
+                letter, 1)
+        )
         total_positives = sum(1 for letter in self.approx_counts if self.approx_counts[letter] > 0)
+
         return true_positives / total_positives if total_positives else 0
 
     def recall(self):
