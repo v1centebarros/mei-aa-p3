@@ -1,11 +1,11 @@
 import os
 
 FILE_PATH = "../books/"
-from algorithms import exact_counter, fixed_probability_counter, lossy_counting
+from algorithms import exact_counter, fixed_probability_counter, lossy_counting,lossy_counting_gigachad
 from utils import log, Stats
 
 books = [book for book in os.listdir(FILE_PATH) if book.endswith(".txt")]
-algorithms = [exact_counter, fixed_probability_counter, lossy_counting]
+algorithms = [exact_counter, fixed_probability_counter, lossy_counting, lossy_counting_gigachad]
 
 
 def main():
