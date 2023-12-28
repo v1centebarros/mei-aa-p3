@@ -3,8 +3,8 @@ import logging
 import pickle
 import time
 from collections import namedtuple
-from math import sqrt
 from functools import wraps
+from math import sqrt
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger(__name__)
@@ -107,7 +107,10 @@ class Stats:
                    'standard_deviation': self.standard_deviation(),
                    'maximum_deviation': self.maximum_deviation(), 'variance': self.variance(),
                    'precision': self.precision(),
-                   'recall': self.recall()}
+                   'recall': self.recall(),
+                   'results': self.approx_counts,
+                   'exact_results': self.exact_counts
+                   }
 
         match _type:
             case 'pickle':
