@@ -8,14 +8,14 @@ nltk.download('punkt')
 nltk.download('stopwords')
 
 
-def process_file(file_path):
+def process_file(file_path, language='en'):
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
     lines = [l.strip() for l in lines]
     text = ' '.join(lines)
 
-    stop_words = set(stopwords.words('english'))
+    stop_words = get_stopwords(language)
 
     word_tokens = word_tokenize(text)
 
@@ -24,11 +24,22 @@ def process_file(file_path):
     return ' '.join(filtered_text)
 
 
+def get_stopwords(language):
+    if language == 'es':
+        stop_words = set(stopwords.words('spanish'))
+    elif language == 'gr':
+        stop_words = set(stopwords.words('german'))
+    else:
+        stop_words = set(stopwords.words('english'))
+    return stop_words
+
+
 def main():
     raw_books_dir = '../books/raw/'
     for filename in os.listdir(raw_books_dir):
         if filename.endswith('.txt'):
-            processed_file = process_file(os.path.join(raw_books_dir, filename))
+            lang = filename.split('_')[0] if '_' in filename else 'en'
+            processed_file = process_file(os.path.join(raw_books_dir, filename), lang)
             with open(os.path.join('../books', filename), 'w') as file:
                 file.write(processed_file)
 
