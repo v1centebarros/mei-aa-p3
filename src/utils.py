@@ -16,8 +16,9 @@ def benchmark(func):
     def wrapper(*args, **kwargs):
         start = time.perf_counter()
         result = func(*args, **kwargs)
+        end = time.perf_counter() - start
         result_sorted = sorted(result.items(), key=lambda x: x[1], reverse=True)
-        return Result(time.perf_counter() - start, result_sorted, func.__name__)
+        return Result(end, result_sorted, func.__name__)
 
     return wrapper
 
