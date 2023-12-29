@@ -32,11 +32,11 @@ def fixed_probability_counter(text, probability=1 / 32):
 
 
 @benchmark
-def lossy_counting(text: str, k=None, error: float = None):
+def lossy_counting(text: str, k: int = 10, error: float = None):
     letter_count = defaultdict(int)
+    bucket_width = k if error is None else ceil(1 / error)
     total = 0
     delta = 0
-    bucket_width = k if k is not None else ceil(1 / error)
 
     for letter in text:
         if letter.isalpha():
