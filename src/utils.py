@@ -76,7 +76,7 @@ class Stats:
         return sum(
             1 for letter in self.approx_counts if self.approx_counts[letter] > 0 and self.exact_counts[letter] > 0)
 
-    def precision(self, tolerance=0.1):
+    def precision(self, tolerance=1):
         true_positives = sum(
             1 for letter in self.approx_counts
             if abs(self.approx_counts[letter] - self.exact_counts.get(letter, 0)) <= tolerance * self.exact_counts.get(
@@ -97,7 +97,7 @@ class Stats:
 
     def __save_json(self, filename, results):
         with open(filename, 'w') as file:
-            json.dump(results, file, indent=4)
+            json.dump(results, file, indent=4,ensure_ascii=False)
 
     def save_results(self, filename, _type='pickle'):
         results = {'mean_absolute_error': self.mean_absolute_error(), 'mean_relative_error': self.mean_relative_error(),
