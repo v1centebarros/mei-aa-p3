@@ -23,6 +23,16 @@ def benchmark(func):
     return wrapper
 
 
+def calculate_total_and_unique_characters(text):
+    total_characters = 0
+    unique_characters = set()
+    for letter in text:
+        if letter.isalpha():
+            total_characters += 1
+            unique_characters.add(letter)
+    return total_characters, unique_characters
+
+
 class Stats:
     def __init__(self, exact_result, approx_result):
         self.exact_counts: dict[str, int] = dict(exact_result.result)
@@ -98,7 +108,7 @@ class Stats:
 
     def __save_json(self, filename, results):
         with open(filename, 'w') as file:
-            json.dump(results, file, indent=4,ensure_ascii=False)
+            json.dump(results, file, indent=4, ensure_ascii=False)
 
     def save_results(self, filename, _type='pickle'):
         results = {'mean_absolute_error': self.mean_absolute_error(), 'mean_relative_error': self.mean_relative_error(),
