@@ -1,6 +1,6 @@
 import random
 from collections import defaultdict
-from math import ceil, floor
+from math import floor
 
 from utils import benchmark
 
