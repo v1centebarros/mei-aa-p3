@@ -29,6 +29,14 @@ def get_stopwords(language):
         stop_words = set(stopwords.words('spanish'))
     elif language == 'gr':
         stop_words = set(stopwords.words('german'))
+    elif language == 'fr':
+        stop_words = set(stopwords.words('french'))
+    elif language == 'fi':
+        stop_words = set(stopwords.words('finnish'))
+    elif language == 'hu':
+        stop_words = set(stopwords.words('hungarian'))
+    elif language == 'du':
+        stop_words = set(stopwords.words('dutch'))
     else:
         stop_words = set(stopwords.words('english'))
     return stop_words
