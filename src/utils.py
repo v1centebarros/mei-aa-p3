@@ -2,13 +2,12 @@ import json
 import logging
 import pickle
 import time
-from collections import namedtuple
+from dataclasses import dataclass
 from functools import wraps
 from math import sqrt
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 log = logging.getLogger(__name__)
-Result = namedtuple('Result', ['time', 'result', 'algorithm'])
 
 
 def benchmark(func):
@@ -17,8 +16,7 @@ def benchmark(func):
         start = time.perf_counter()
         result = func(*args, **kwargs)
         end = time.perf_counter() - start
-        result_sorted = sorted(result.items(), key=lambda x: x[1], reverse=True)
-        return Result(end, result_sorted, func.__name__)
+        return result, end
 
     return wrapper
 
@@ -33,26 +31,37 @@ def calculate_total_and_unique_characters(text):
     return total_characters, unique_characters
 
 
+@dataclass
+class CounterResult:
+    result: dict[str, int]
+    time: float
+
+    def __str__(self):
+        return f'Time: {self.time}, Result: {self.result}'
+
+
 class Stats:
-    def __init__(self, exact_result, approx_result):
-        self.exact_counts: dict[str, int] = dict(exact_result.result)
-        self.approx_counts: dict[str, int] = dict(approx_result.result)
+    def __init__(self, exact_result: CounterResult, approx_result: CounterResult):
+        self.exact_counts = exact_result.result
+        self.approx_counts = approx_result.result
         self.letters = set(self.exact_counts.keys()).union(set(self.approx_counts.keys()))
 
     def mean_absolute_error(self):
-        total_error = sum(abs(self.exact_counts[letter] - self.approx_counts.get(letter, 0)) for letter in self.letters)
+        total_error = sum(
+            abs(self.exact_counts.get(letter, 0) - self.approx_counts.get(letter, 0)) for letter in self.letters)
         return total_error / len(self.letters)
 
     def mean_relative_error(self):
         total_relative_error = sum(
-            abs(self.exact_counts[letter] - self.approx_counts.get(letter, 0)) / self.exact_counts[letter] for letter in
-            self.letters if self.exact_counts[letter] != 0)
+            abs(self.exact_counts.get(letter, 0) - self.approx_counts.get(letter, 0)) / self.exact_counts.get(letter, 1)
+            for letter in
+            self.letters if self.exact_counts.get(letter, 0) != 0)
         return total_relative_error / len(self.letters)
 
     def mean_accuracy_ratio(self):
         total_accuracy_ratio = sum(
-            self.approx_counts.get(letter, 0) / self.exact_counts[letter] for letter in self.letters if
-            self.exact_counts[letter] != 0)
+            self.approx_counts.get(letter, 0) / self.exact_counts.get(letter, 1) for letter in self.letters if
+            self.exact_counts.get(letter, 0) != 0)
         return total_accuracy_ratio / len(self.letters)
 
     def smallest_value(self):
@@ -85,7 +94,8 @@ class Stats:
 
     def __true_positives(self):
         return sum(
-            1 for letter in self.approx_counts if self.approx_counts[letter] > 0 and self.exact_counts[letter] > 0)
+            1 for letter in self.approx_counts if
+            self.approx_counts[letter] > 0 and self.exact_counts.get(letter, 0) > 0)
 
     def precision(self, tolerance=1):
         true_positives = sum(
@@ -118,9 +128,7 @@ class Stats:
                    'standard_deviation': self.standard_deviation(),
                    'maximum_deviation': self.maximum_deviation(), 'variance': self.variance(),
                    'precision': self.precision(),
-                   'recall': self.recall(),
-                   'results': self.approx_counts,
-                   'exact_results': self.exact_counts
+                   'recall': self.recall()
                    }
 
         match _type:
