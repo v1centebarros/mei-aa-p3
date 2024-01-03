@@ -3,6 +3,7 @@ import os
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from tqdm import tqdm
 
 nltk.download('punkt')
 nltk.download('stopwords')
@@ -19,7 +20,7 @@ def process_file(file_path, language='en'):
 
     word_tokens = word_tokenize(text)
 
-    filtered_text = [w.upper() for w in word_tokens if w not in stop_words and w.isalnum()]
+    filtered_text = [w.upper() for w in word_tokens if w not in stop_words and w.isalpha()]
 
     return ''.join(filtered_text)
 
@@ -41,7 +42,7 @@ def get_stopwords(language):
 
 def main():
     raw_books_dir = '../books/raw/'
-    for filename in os.listdir(raw_books_dir):
+    for filename in tqdm(os.listdir(raw_books_dir)):
         if filename.endswith('.txt'):
             lang = filename.split('_')[0] if '_' in filename else 'en'
             processed_file = process_file(os.path.join(raw_books_dir, filename), lang)
