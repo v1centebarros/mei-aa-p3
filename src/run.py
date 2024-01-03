@@ -2,6 +2,8 @@ import json
 import os
 from collections import OrderedDict
 
+from tqdm import tqdm
+
 FILE_PATH = "../books/"
 RESULTS_FILE = "../results/results.json"
 from algorithms import exact_counter, fixed_probability_counter, lossy_counting
@@ -14,6 +16,7 @@ algorithms = [exact_counter, fixed_probability_counter, lossy_counting]
 def sort_result(result, time):
     sorted_result = sorted(result.items(), key=lambda x: x[1], reverse=True)
     k = {k: {"result": OrderedDict(sorted_result[:k]), "time": time} for k in [3, 5, 10]}
+    k[0] = {"result": OrderedDict(sorted_result), "time": time}
     return k
 
 
@@ -27,8 +30,8 @@ def run_fixed_probability_counter(text, runs=100):
     average_result = {}
     average_time = 0
 
-    for i in range(runs):
-        log.info(f"Running fixed probability counter {i + 1} of {runs}")
+    for _ in tqdm(range(runs)):
+        # log.info(f"Running fixed probability counter {i + 1} of {runs}")
         result, time = fixed_probability_counter(text)
         results.append(result)
         average_time += time
@@ -71,10 +74,10 @@ def run_stats(results):
         for algorithm in ["fixed_probability_counter", "lossy_counting"]:
             log.info(f"Running statistics on {book} with {algorithm}")
             for k in ["3", "5", "10"]:
-                exact_counter_obg = CounterResult(results[book]["exact_counter"][k]["result"],
-                                                  results[book]["exact_counter"][k]["time"])
+                exact_counter_result = CounterResult(results[book]["exact_counter"]["0"]["result"],
+                                                     results[book]["exact_counter"]["0"]["time"])
                 counter = CounterResult(results[book][algorithm][k]["result"], results[book][algorithm][k]["time"])
-                stats = Stats(exact_counter_obg, counter)
+                stats = Stats(exact_counter_result, counter)
                 stats.save_results(f"../results/{book}_{algorithm}_{k}.json", _type="json")
 
 
