@@ -21,24 +21,21 @@ def process_file(file_path, language='en'):
 
     filtered_text = [w.upper() for w in word_tokens if w not in stop_words and w.isalnum()]
 
-    return ' '.join(filtered_text)
+    return ''.join(filtered_text)
 
 
 def get_stopwords(language):
-    if language == 'es':
-        stop_words = set(stopwords.words('spanish'))
-    elif language == 'gr':
-        stop_words = set(stopwords.words('german'))
-    elif language == 'fr':
-        stop_words = set(stopwords.words('french'))
-    elif language == 'fi':
-        stop_words = set(stopwords.words('finnish'))
-    elif language == 'hu':
-        stop_words = set(stopwords.words('hungarian'))
-    elif language == 'du':
-        stop_words = set(stopwords.words('dutch'))
-    else:
-        stop_words = set(stopwords.words('english'))
+    language_map = {
+        'es': 'spanish',
+        'gr': 'german',
+        'fr': 'french',
+        'fi': 'finnish',
+        'hu': 'hungarian',
+        'du': 'dutch',
+        'en': 'english'
+    }
+
+    stop_words = set(stopwords.words(language_map.get(language, 'english')))
     return stop_words
 
 
