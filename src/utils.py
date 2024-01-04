@@ -91,26 +91,28 @@ class Stats:
         mean = self.mean()
         total_squared_deviation = sum((count - mean) ** 2 for count in self.approx_counts.values())
         return total_squared_deviation / len(self.approx_counts)
+    def precision(self, top_n=3):
+        exact_top_n = set(sorted(self.exact_counts, key=self.exact_counts.get, reverse=True)[:top_n])
+        approx_top_n = set(sorted(self.approx_counts, key=self.approx_counts.get, reverse=True)[:top_n])
 
-    def __true_positives(self):
-        return sum(
-            1 for letter in self.approx_counts if
-            self.approx_counts[letter] > 0 and self.exact_counts.get(letter, 0) > 0)
+        # Calculate true positives (letters that are in both top_n sets)
+        true_positives = len(exact_top_n.intersection(approx_top_n))
 
-    def precision(self, tolerance=1):
-        true_positives = sum(
-            1 for letter in self.approx_counts
-            if abs(self.approx_counts[letter] - self.exact_counts.get(letter, 0)) <= tolerance * self.exact_counts.get(
-                letter, 1)
-        )
-        total_positives = sum(1 for letter in self.approx_counts if self.approx_counts[letter] > 0)
+        # Calculate precision
+        if len(approx_top_n) > 0:
+            return true_positives / len(approx_top_n)
+        return 0
 
-        return true_positives / total_positives if total_positives else 0
+    def recall(self, top_n=3):
+        exact_top_n = set(sorted(self.exact_counts, key=self.exact_counts.get, reverse=True)[:top_n])
+        approx_top_n = set(sorted(self.approx_counts, key=self.approx_counts.get, reverse=True)[:top_n])
 
-    def recall(self):
-        true_positives = self.__true_positives()
-        total_relevant = sum(1 for letter in self.exact_counts if self.exact_counts[letter] > 0)
-        return true_positives / total_relevant if total_relevant else 0
+        true_positives = len(exact_top_n.intersection(approx_top_n))
+
+        # Calculate recall
+        if len(exact_top_n) > 0:
+            return true_positives / len(exact_top_n)
+        return 0
 
     def __save_pickle(self, filename, results):
         with open(filename, 'wb') as file:
@@ -127,8 +129,8 @@ class Stats:
                    'mean_absolute_deviation': self.mean_absolute_deviation(),
                    'standard_deviation': self.standard_deviation(),
                    'maximum_deviation': self.maximum_deviation(), 'variance': self.variance(),
-                   'precision': self.precision(),
-                   'recall': self.recall()
+                   'precision': self.precision(top_n=len(self.approx_counts)),
+                   'recall': self.recall(top_n=len(self.approx_counts))
                    }
 
         match _type:

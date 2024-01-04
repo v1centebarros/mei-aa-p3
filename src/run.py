@@ -1,6 +1,7 @@
 import json
 import os
 from collections import OrderedDict
+from math import floor
 
 from tqdm import tqdm
 
@@ -25,19 +26,18 @@ def run_exact_counter(text):
     return sort_result(result, time)
 
 
-def run_fixed_probability_counter(text, runs=100):
+def run_fixed_probability_counter(text, runs=500):
     results = []
     average_result = {}
     average_time = 0
 
     for _ in tqdm(range(runs)):
-        # log.info(f"Running fixed probability counter {i + 1} of {runs}")
         result, time = fixed_probability_counter(text)
         results.append(result)
         average_time += time
 
     for letter in results[0]:
-        average_result[letter] = sum(result[letter] for result in results) / len(results)
+        average_result[letter] = floor(sum(result[letter] for result in results) / len(results))
 
     return sort_result(average_result, average_time / runs)
 
@@ -85,8 +85,8 @@ if __name__ == "__main__":
     if not os.path.exists("../results"):
         os.mkdir("../results")
 
-    if not os.path.exists(RESULTS_FILE):
-        marathon()
+    # if not os.path.exists(RESULTS_FILE):
+    marathon()
 
     results = json.load(open(RESULTS_FILE, "r"))
 

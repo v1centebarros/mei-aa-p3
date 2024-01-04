@@ -53,7 +53,6 @@ def plot_count_per_algorithm(results, title, k=3, show=False, save=False):
         plt.savefig(f'../plots/{title}.png')
 
 
-
 def plot_exact_counter_of_each_letter_per_book(results, title, show=False, save=False):
     books = results.keys()
     letters_counters = defaultdict(dict)
@@ -95,16 +94,16 @@ def plot_exact_counter_of_each_letter_per_book(results, title, show=False, save=
         plt.show()
 
     if save:
-        plt.savefig(f'{title}.png')
+        plt.savefig(f'../plots/{title}.png')
 
 
 def main():
     results = json.load(open("../results/results.json", "r"))
 
-    # for k in [3, 5, 10]:
-    #     plot_count_per_algorithm(results, f"Most frequent letters with k={k}", k=k, save=True)
+    for k in [3, 5, 10]:
+        plot_count_per_algorithm(results, f"Most frequent letters with k={k}", k=k, save=True)
 
-    plot_exact_counter_of_each_letter_per_book(results, "Exact counter of each letter per book", show=True)
+    plot_exact_counter_of_each_letter_per_book(results, "Exact counter of each letter per book", save=True)
 
 
 if __name__ == "__main__":
