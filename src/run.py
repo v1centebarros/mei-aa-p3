@@ -69,16 +69,27 @@ def marathon():
     json.dump(results, open(RESULTS_FILE, "w"), indent=4, ensure_ascii=False)
 
 
-def run_stats(results):
+def run_stats_lossy(results):
     for book in books:
-        for algorithm in ["fixed_probability_counter", "lossy_counting"]:
-            log.info(f"Running statistics on {book} with {algorithm}")
-            for k in ["3", "5", "10"]:
-                exact_counter_result = CounterResult(results[book]["exact_counter"]["0"]["result"],
-                                                     results[book]["exact_counter"]["0"]["time"])
-                counter = CounterResult(results[book][algorithm][k]["result"], results[book][algorithm][k]["time"])
-                stats = Stats(exact_counter_result, counter)
-                stats.save_results(f"../results/{book}_{algorithm}_{k}.json", _type="json")
+
+        for k in ["3", "5", "10"]:
+            exact_counter_result = CounterResult(results[book]["exact_counter"]["0"]["result"],
+                                                 results[book]["exact_counter"]["0"]["time"])
+            counter = CounterResult(results[book]["lossy_counting"][k]["result"],
+                                    results[book]["lossy_counting"][k]["time"])
+            stats = Stats(exact_counter_result, counter)
+            stats.save_results(f"../results/{book}_lossy_counting_{k}.json", _type="json")
+
+
+def run_stats_probability(results):
+    for book in books:
+        exact_counter_result = CounterResult(results[book]["exact_counter"]["0"]["result"],
+                                             results[book]["exact_counter"]["0"]["time"])
+        probability_counter_result = CounterResult(results[book]["fixed_probability_counter"]["0"]["result"],
+                                                   results[book]["fixed_probability_counter"]["0"]["time"])
+
+        stats = Stats(exact_counter_result, probability_counter_result)
+        stats.save_results(f"../results/{book}_probability_counter.json", _type="json")
 
 
 if __name__ == "__main__":
@@ -90,4 +101,5 @@ if __name__ == "__main__":
 
     results = json.load(open(RESULTS_FILE, "r"))
 
-    run_stats(results)
+    run_stats_lossy(results)
+    run_stats_probability(results)
