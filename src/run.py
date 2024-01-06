@@ -96,8 +96,8 @@ if __name__ == "__main__":
     if not os.path.exists("../results"):
         os.mkdir("../results")
 
-    # if not os.path.exists(RESULTS_FILE):
-    marathon()
+    if not os.path.exists(RESULTS_FILE):
+        marathon()
 
     results = json.load(open(RESULTS_FILE, "r"))
 
