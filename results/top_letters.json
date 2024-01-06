@@ -1,0 +1,333 @@
+{
+    "quixote_hun.txt": {
+        "exact_counter": [
+            "E",
+            "A",
+            "T",
+            "N",
+            "L",
+            "S",
+            "O",
+            "K",
+            "G",
+            "M"
+        ],
+        "fixed_probability_counter": [
+            "E",
+            "A",
+            "T",
+            "N",
+            "L",
+            "S",
+            "O",
+            "K",
+            "G",
+            "M"
+        ],
+        "lossy_counting": {
+            "3": [
+                "Y",
+                "V",
+                "R",
+                "A",
+                "G"
+            ],
+            "5": [
+                "V",
+                "L",
+                "E",
+                "U",
+                "R",
+                "A",
+                "G",
+                "Y"
+            ],
+            "10": [
+                "E",
+                "L",
+                "A",
+                "O",
+                "V",
+                "N",
+                "C",
+                "U",
+                "R",
+                "G",
+                "Y"
+            ]
+        }
+    },
+    "quixote_es.txt": {
+        "exact_counter": [
+            "E",
+            "A",
+            "O",
+            "S",
+            "R",
+            "N",
+            "L",
+            "D",
+            "U",
+            "I"
+        ],
+        "fixed_probability_counter": [
+            "E",
+            "A",
+            "O",
+            "S",
+            "R",
+            "N",
+            "L",
+            "D",
+            "U",
+            "I"
+        ],
+        "lossy_counting": {
+            "3": [
+                "E",
+                "A",
+                "V",
+                "L"
+            ],
+            "5": [
+                "A",
+                "L",
+                "V",
+                "E"
+            ],
+            "10": [
+                "E",
+                "A",
+                "O",
+                "D",
+                "L",
+                "N",
+                "U",
+                "V",
+                "G"
+            ]
+        }
+    },
+    "quixote_du.txt": {
+        "exact_counter": [
+            "E",
+            "N",
+            "A",
+            "D",
+            "O",
+            "I",
+            "T",
+            "R",
+            "H",
+            "L"
+        ],
+        "fixed_probability_counter": [
+            "E",
+            "N",
+            "A",
+            "D",
+            "O",
+            "I",
+            "T",
+            "R",
+            "H",
+            "L"
+        ],
+        "lossy_counting": {
+            "3": [
+                "E",
+                "I",
+                "F"
+            ],
+            "5": [
+                "E",
+                "L",
+                "I",
+                "F"
+            ],
+            "10": [
+                "E",
+                "N",
+                "A",
+                "I",
+                "O",
+                "D",
+                "H",
+                "R",
+                "T",
+                "L",
+                "F"
+            ]
+        }
+    },
+    "quixote_en.txt": {
+        "exact_counter": [
+            "E",
+            "A",
+            "S",
+            "O",
+            "T",
+            "I",
+            "N",
+            "R",
+            "D",
+            "L"
+        ],
+        "fixed_probability_counter": [
+            "E",
+            "A",
+            "S",
+            "T",
+            "O",
+            "I",
+            "N",
+            "R",
+            "D",
+            "L"
+        ],
+        "lossy_counting": {
+            "3": [
+                "L",
+                "E",
+                "W"
+            ],
+            "5": [
+                "E",
+                "L",
+                "R",
+                "F",
+                "A",
+                "W"
+            ],
+            "10": [
+                "E",
+                "L",
+                "O",
+                "R",
+                "T",
+                "D",
+                "F",
+                "A",
+                "V",
+                "W"
+            ]
+        }
+    },
+    "quixote_fi.txt": {
+        "exact_counter": [
+            "A",
+            "I",
+            "T",
+            "N",
+            "E",
+            "S",
+            "Ä",
+            "L",
+            "K",
+            "U"
+        ],
+        "fixed_probability_counter": [
+            "A",
+            "I",
+            "T",
+            "N",
+            "E",
+            "S",
+            "Ä",
+            "L",
+            "K",
+            "U"
+        ],
+        "lossy_counting": {
+            "3": [
+                "O",
+                "K",
+                "S",
+                "E",
+                "B"
+            ],
+            "5": [
+                "E",
+                "O",
+                "K",
+                "S",
+                "W",
+                "B"
+            ],
+            "10": [
+                "A",
+                "I",
+                "E",
+                "O",
+                "S",
+                "T",
+                "R",
+                "W",
+                "B",
+                "K",
+                "L",
+                "N",
+                "H"
+            ]
+        }
+    },
+    "quixote_fr.txt": {
+        "exact_counter": [
+            "E",
+            "S",
+            "A",
+            "T",
+            "R",
+            "I",
+            "N",
+            "U",
+            "O",
+            "L"
+        ],
+        "fixed_probability_counter": [
+            "E",
+            "S",
+            "A",
+            "T",
+            "R",
+            "I",
+            "N",
+            "U",
+            "O",
+            "L"
+        ],
+        "lossy_counting": {
+            "3": [
+                "A",
+                "U",
+                "M",
+                "B",
+                "E"
+            ],
+            "5": [
+                "A",
+                "U",
+                "E",
+                "T",
+                "O",
+                "M",
+                "B"
+            ],
+            "10": [
+                "E",
+                "A",
+                "R",
+                "T",
+                "N",
+                "O",
+                "M",
+                "B",
+                "U",
+                "I",
+                "C",
+                "H",
+                "S"
+            ]
+        }
+    }
+}
