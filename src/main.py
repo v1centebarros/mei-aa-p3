@@ -1,7 +1,6 @@
 import json
 import os
 from collections import defaultdict
-from pprint import pprint
 
 from utils import calculate_total_and_unique_characters
 
@@ -20,6 +19,27 @@ def calculate_total_and_unique_characters_main():
 
     with open("../results/character_counts.json", "w") as f:
         json.dump(results, f, indent=4, ensure_ascii=False)
+
+
+def calculate_times_main():
+    # save in a json file the time it takes to run each algorithm for each book exact counter and approximate counter and lossy counting (k=3, k=5, k=10)
+    results = {}
+    # open results file
+    with open("../results/results.json", "r") as f:
+        results = json.load(f)
+        new_results = defaultdict(dict)
+        for book in results:
+            for algorithm in results[book]:
+                if algorithm == "lossy_counting":
+                    new_results[f"{book}"][algorithm] = defaultdict(dict)
+                    for k in ["3", "5", "10"]:
+                        new_results[f"{book}"][algorithm][f"{k}"] = results[book]["lossy_counting"][k]["time"]
+                else:
+                    new_results[f"{book}"][algorithm] = results[book][algorithm]["10"]["time"]
+
+    json.dump(new_results, open("../results/times.json", "w"), indent=4, ensure_ascii=False)
+
+
 
 
 def main ():
@@ -41,4 +61,4 @@ def main ():
     json.dump(new_results, open("../results/top_letters.json", "w"), indent=4, ensure_ascii=False)
 
 if __name__ == '__main__':
-    main()
+    calculate_times_main()
