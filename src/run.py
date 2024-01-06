@@ -6,7 +6,7 @@ from math import floor
 from tqdm import tqdm
 
 FILE_PATH = "../books/"
-RESULTS_FILE = "../results/results.json"
+RESULTS_FILE = "../results/statisticsresults.json"
 from algorithms import exact_counter, fixed_probability_counter, lossy_counting
 from utils import log, Stats, CounterResult
 
@@ -78,7 +78,7 @@ def run_stats_lossy(results):
             counter = CounterResult(results[book]["lossy_counting"][k]["result"],
                                     results[book]["lossy_counting"][k]["time"])
             stats = Stats(exact_counter_result, counter)
-            stats.save_results(f"../results/{book}_lossy_counting_{k}.json", _type="json")
+            stats.save_results(f"../results/statistics{book}_lossy_counting_{k}.json", _type="json")
 
 
 def run_stats_probability(results):
@@ -89,7 +89,7 @@ def run_stats_probability(results):
                                                    results[book]["fixed_probability_counter"]["0"]["time"])
 
         stats = Stats(exact_counter_result, probability_counter_result)
-        stats.save_results(f"../results/{book}_probability_counter.json", _type="json")
+        stats.save_results(f"../results/statistics{book}_probability_counter.json", _type="json")
 
 
 if __name__ == "__main__":
